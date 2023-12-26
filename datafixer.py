@@ -14,5 +14,6 @@ def elefixer(df):
     df=df.drop(columns=["MTU (CET/CEST)","Currency","BZN|FI"])
     return df
 def weatherfixer(df):
-    df["time"]=df.apply(lambda row: string(row["Päivä"])+string(row["Kuukausi"])+string(row["Vuosi"])+string(row["Aika [Paikallinen aika]"])[0:2],axis=1)
+    df["time"]=df.apply(lambda row: row["Päivä"]+str(row["Kuukausi"])+str(row["Vuosi"])+str(row["Aika [Paikallinen aika]"])[0:2],axis=1)
     df=df.drop(columns=["Havaintoasema","Vuosi","Kuukausi","Päivä","Aika [Paikallinen aika]"])
+    return df
