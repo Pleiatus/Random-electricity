@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from datetime import datetime
 def elefixer(df):
     timecheck= df["MTU (CET/CEST)"]
     last = 23
@@ -11,6 +12,8 @@ def elefixer(df):
         last = int(i[11:13])
     df.drop_duplicates(subset=["MTU (CET/CEST)"], inplace=True)
     df["time"]=df.apply(lambda row: row["MTU (CET/CEST)"][0:2]+row["MTU (CET/CEST)"][3:5]+row["MTU (CET/CEST)"][6:10]+row["MTU (CET/CEST)"][11:13],axis=1)
+    df["wd"]=df.apply(lambda row: datetime.strptime(row["MTU (CET/CEST)"][0:10],"%d.%m.%Y").weekday(),axis=1)
+    df["clock"]=df.apply(lambda row: float(row["MTU (CET/CEST)"][11:13]),axis=1)
     df=df.drop(columns=["MTU (CET/CEST)","Currency","BZN|FI"])
     return df
 def weatherfixer(df):

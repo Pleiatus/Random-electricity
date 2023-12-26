@@ -16,9 +16,16 @@ weather["Lämpötilan keskiarvo [°C]"]=pd.to_numeric(weather["Lämpötilan kesk
 weather["Keskituulen nopeus [m/s]"]=pd.to_numeric(weather["Keskituulen nopeus [m/s]"], errors='coerce')
 weather["Ilmanpaineen keskiarvo [hPa]"]=pd.to_numeric(weather["Ilmanpaineen keskiarvo [hPa]"], errors='coerce')
 data=price.merge(weather, how="left", on="time")
-print(data)
 Y=data["Day-ahead Price [EUR/MWh]"].interpolate()
 X=data.drop(columns=["Day-ahead Price [EUR/MWh]","time"]).interpolate()
-for i in range(len(Y)):
+
+
+regr_1 = DecisionTreeRegressor(max_depth=4)
+regr_1.fit(X,Y)
+Ypred=regr_1.predict(X)
+for i in range(len(Ypred)):
+    print(i)
+    print(Ypred[i])
     print(Y[i])
+
 
